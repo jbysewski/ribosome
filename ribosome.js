@@ -214,8 +214,13 @@ function Ribosome() {\n\
 \n\
     function close() {\n\
         if (append_flag == false && typeof out === \"string\") {\n\
-            if (fs.existsSync(out)) {\n\
+            try {\n\
                 fs.unlinkSync(out);\n\
+            }\n\
+            catch(e) {\n\
+              if(e.code !== \"ENOENT\") {\n\
+                console.log(\"Error while trying to delete \"+out+\": \"+e.code);\n\
+              }\n\
             }\n\
         }\n\
         stack.last().forEach(function(b) {\n\
